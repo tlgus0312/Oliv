@@ -81,6 +81,6 @@
      </div>
      ```
    - 모든 페이지 순차 클릭하며 데이터 수집
-
+     ![캡처 5555](https://github.com/user-attachments/assets/a06b1de4-d986-4110-9535-88ec51ac7cc5)
 5/8 완성
-
+csv저장으로 수정할 예정 
