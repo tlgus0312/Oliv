@@ -46,8 +46,7 @@ https://www.oliveyoung.co.kr/store/display/getCategoryShop.do?dispCatNo=10000010
 <ul class = "list"> -> 리스트를 세개를 moveCategory뒤에 있는것을 가져온다.  
 <li>
 <a href="javascript:common.link.moveCategory('100000100010013', 'Cat100000100010013_MID','',{ t_page: '카테고리관', t_click: '카테고리상세_중카테고리', t_1st_category_type: '대_스킨케어', t_2nd_category_type: '중_스킨/토너' })" class="100000100010013" onclick="javascript:categoryShop.detail.setBindWlogEvent('mcategory', 1);" data-attr="카테고리관^카테고리리스트^스킨/토너^1" data-trk="/">
-<span>스킨/토너</span></a>
-</li>
+<span>스킨/토너</span></a></li>
 
 일단 하나 스킨/토너를 누르고 
 ![캡처333333](https://github.com/user-attachments/assets/3a122c5d-e3e2-43c6-8d4c-89fbb3b533d1)
