@@ -82,17 +82,15 @@
      ```
    - 모든 페이지 순차 클릭하며 데이터 수집
      ![캡처 5555](https://github.com/user-attachments/assets/a06b1de4-d986-4110-9535-88ec51ac7cc5)
-5/8 완성
-  
-csv저장
+5/8 완성 csv저장
 
-스킨/토너 -44144개 저장
-에센스/세럼/앰플 -46326개저장
-크림-42560개저장
-아이크림-32106개저장
-클렌징폼/젤 리뷰 46568개 저장
-오일/밤 43564개 저장
-워터/밀크  42102개 저장
+- 스킨/토너 -44144개 저장
+- 에센스/세럼/앰플 -46326개저장
+- 크림-42560개저장
+- 아이크림-32106개저장
+- 클렌징폼/젤 리뷰 46568개 저장
+- 오일/밤 43564개 저장
+- 워터/밀크  42102개 저장
 
 
 ![image](https://github.com/user-attachments/assets/d52aab29-013a-4348-a9cd-4d4c774dd539)
@@ -106,10 +104,15 @@ LSTM 감성분석을 하는데 label_studio로 200개 정도 수동으로 라벨
 ###  화장품 데이터의 특징 
 
 ![image](https://github.com/user-attachments/assets/5ce5da83-989d-46ed-85a9-5ca2f285098b) 
+
 ## 글이 김
+
 ![image](https://github.com/user-attachments/assets/1510de13-e794-45fb-90dd-11199f80fde6) 
+
 ## 장점, 단점, 후기가 모두 있음
+
 ![image](https://github.com/user-attachments/assets/54def414-6faa-4225-8a54-cf8d117346e4) 
+
 ## 이모티콘 있음
 
 
@@ -234,44 +237,12 @@ model.compile(
 ###  2) Bi-LSTM+Attention
 ####  양방향 문맥과 핵심 토큰 강조
 ####  순방향과 역방향 LSTM을 결합해 과거·미래 양쪽 문맥을 모두 포착. 특히 긴 문장에서 앞·뒤 맥락을 균형 있게 학습
-#### 핵심 감성 표현(예: "촉촉", "자극")에 집중시켜 성능을 높여줌    return pd.DataFrame(result)
+#### 핵심 감성 표현(예: "촉촉", "자극")에 집중시켜 성능을 높여줌  
 
-# 4) 실제 변환해서 원본에 붙이기
-vector_df = fast_convert_label_to_vector(df_all['라벨'])
-df_vectorized = pd.concat([df_all, vector_df], axis=1)
-5개 속성 × 3극성 → 15차원 이진 벡터
-```
-
-# 모델 학습
-## 모델 아키텍처
-
-### 1) 기본 LSTM 모델
-#### 단방향 빠른 학습
-####  단방향 RNN 구조로 이전 시점 정보만 활용. 학습 속도가 빠르지만 문장 뒷부분 맥락 반영에 한계가 있음.
-```python
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Embedding, LSTM, Dropout, Dense
-
-model = Sequential([
-  Embedding(vocab_size, 128, input_length=max_len),
-  LSTM(64),
-  Dropout(0.5),
-  Dense(64, activation='relu'),
-  Dropout(0.5),
-  Dense(15, activation='sigmoid')
-])
-model.compile(
-  optimizer='adam',
-  loss='binary_crossentropy',
-  metrics=['accuracy']
-)
-
-```
-###  2) Bi-LSTM+Attention
-####  양방향 문맥과 핵심 토큰 강조
-####  순방향과 역방향 LSTM을 결합해 과거·미래 양쪽 문맥을 모두 포착. 특히 긴 문장에서 앞·뒤 맥락을 균형 있게 학습
-#### 핵심 감성 표현(예: "촉촉", "자극")에 집중시켜 성능을 높여줌
 ![image](https://github.com/user-attachments/assets/4566d14e-895b-462f-b2a6-80b4edf5650b)
+### 성능이 56%에 머무른다는 것은, 이제 데이터를 모델에 넣기까지의 과정, 즉 '전처리(Preprocessing)'나 학습 파라미터에 문제
+### 리뷰 텍스트(문장)를 숫자 시퀀스로 변환하고, 모든 시퀀스의 길이를 동일하게 맞춰주는 과정
+## 공개된 한국어 Word2Vec, FastText, 또는 KoBERT, KR-BERT 같은 모델의 임베딩을 가져와서, 모델의 첫 번째 Embedding 레이어에 적용
 
 ```python
 from tensorflow.keras.layers import Input, Embedding, Bidirectional, LSTM, Dense, Dropout, Layer
@@ -300,8 +271,6 @@ model.compile(
   loss='binary_crossentropy',
   metrics=['accuracy']
 )
-
-
 
 
 ```
