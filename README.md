@@ -230,10 +230,12 @@ model.compile(
   metrics=['accuracy']
 )
 
+```
 ###  2) Bi-LSTM+Attention
 ####  양방향 문맥과 핵심 토큰 강조
 ####  순방향과 역방향 LSTM을 결합해 과거·미래 양쪽 문맥을 모두 포착. 특히 긴 문장에서 앞·뒤 맥락을 균형 있게 학습
 #### 핵심 감성 표현(예: "촉촉", "자극")에 집중시켜 성능을 높여줍
+![image](https://github.com/user-attachments/assets/4566d14e-895b-462f-b2a6-80b4edf5650b)
 
 ```python
 from tensorflow.keras.layers import Input, Embedding, Bidirectional, LSTM, Dense, Dropout, Layer
@@ -263,10 +265,10 @@ model.compile(
   metrics=['accuracy']
 )
 
-![image](https://github.com/user-attachments/assets/4566d14e-895b-462f-b2a6-80b4edf5650b)
 
 
-```python
+
+```
 ## 실시간 대시보드 
 ### 추천 로직
 1. **다중 필터**: 조건 만족 제품 선별  
