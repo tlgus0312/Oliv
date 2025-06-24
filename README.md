@@ -106,11 +106,11 @@ LSTM 감성분석을 하는데 label_studio로 200개 정도 수동으로 라벨
 ###  화장품 데이터의 특징 
 
 ![image](https://github.com/user-attachments/assets/5ce5da83-989d-46ed-85a9-5ca2f285098b) 
-#### 글이 김
+## 글이 김
 ![image](https://github.com/user-attachments/assets/1510de13-e794-45fb-90dd-11199f80fde6) 
-#### 장점, 단점, 후기가 모두 있음
+## 장점, 단점, 후기가 모두 있음
 ![image](https://github.com/user-attachments/assets/54def414-6faa-4225-8a54-cf8d117346e4) 
-#### 이모티콘 있음
+## 이모티콘 있음
 
 
 위의 주제를 수정 
@@ -234,7 +234,43 @@ model.compile(
 ###  2) Bi-LSTM+Attention
 ####  양방향 문맥과 핵심 토큰 강조
 ####  순방향과 역방향 LSTM을 결합해 과거·미래 양쪽 문맥을 모두 포착. 특히 긴 문장에서 앞·뒤 맥락을 균형 있게 학습
-#### 핵심 감성 표현(예: "촉촉", "자극")에 집중시켜 성능을 높여줍
+#### 핵심 감성 표현(예: "촉촉", "자극")에 집중시켜 성능을 높여줌    return pd.DataFrame(result)
+
+# 4) 실제 변환해서 원본에 붙이기
+vector_df = fast_convert_label_to_vector(df_all['라벨'])
+df_vectorized = pd.concat([df_all, vector_df], axis=1)
+5개 속성 × 3극성 → 15차원 이진 벡터
+```
+
+# 모델 학습
+## 모델 아키텍처
+
+### 1) 기본 LSTM 모델
+#### 단방향 빠른 학습
+####  단방향 RNN 구조로 이전 시점 정보만 활용. 학습 속도가 빠르지만 문장 뒷부분 맥락 반영에 한계가 있음.
+```python
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Embedding, LSTM, Dropout, Dense
+
+model = Sequential([
+  Embedding(vocab_size, 128, input_length=max_len),
+  LSTM(64),
+  Dropout(0.5),
+  Dense(64, activation='relu'),
+  Dropout(0.5),
+  Dense(15, activation='sigmoid')
+])
+model.compile(
+  optimizer='adam',
+  loss='binary_crossentropy',
+  metrics=['accuracy']
+)
+
+```
+###  2) Bi-LSTM+Attention
+####  양방향 문맥과 핵심 토큰 강조
+####  순방향과 역방향 LSTM을 결합해 과거·미래 양쪽 문맥을 모두 포착. 특히 긴 문장에서 앞·뒤 맥락을 균형 있게 학습
+#### 핵심 감성 표현(예: "촉촉", "자극")에 집중시켜 성능을 높여줌
 ![image](https://github.com/user-attachments/assets/4566d14e-895b-462f-b2a6-80b4edf5650b)
 
 ```python
@@ -269,7 +305,10 @@ model.compile(
 
 
 ```
+
 ## 실시간 대시보드 
 ### 추천 로직
+![250624 시연](https://github.com/user-attachments/assets/02a85b57-83e3-4783-8937-b21649b68fd3)
+
 1. **다중 필터**: 조건 만족 제품 선별  
 2. **개인화 점수**: Σ(긍정×가중치) − Σ(부정×가중치) 
