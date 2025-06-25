@@ -281,3 +281,22 @@ model.compile(
 #### 성능이 56%에 머무른다는 것은, 이제 데이터를 모델에 넣기까지의 과정, 즉 '전처리(Preprocessing)'나 학습 파라미터에 문제
 #### 리뷰 텍스트(문장)를 숫자 시퀀스로 변환하고, 모든 시퀀스의 길이를 동일하게 맞춰주는 과정
 #### 공개된 한국어 Word2Vec, FastText, 또는 KoBERT, KR-BERT 같은 모델의 임베딩을 가져와서, 모델의 첫 번째 Embedding 레이어에 적용이 필요하다는 것을 느낌
+
+## 실시간 대시보드 
+### 추천 로직
+![250624 시연](https://github.com/user-attachments/assets/02a85b57-83e3-4783-8937-b21649b68fd3)
+
+1. **다중 필터**: 조건 만족 제품 선별 (피부타입, 중점기능(미백,보습,트러블,보호,노화방지))
+2. **개인화 점수**: Σ(긍정×가중치) − Σ(부정×가중치)
+   
+![image](https://github.com/user-attachments/assets/0ca6b86f-b4cb-44fd-b855-c1917c5cdfca)
+
+![image](https://github.com/user-attachments/assets/8a410e31-699b-47b2-802e-b1e6cd2893f7)
+![image](https://github.com/user-attachments/assets/8d5bfe17-3ddb-492c-8725-50e6ed61a351)
+
+
+![image](https://github.com/user-attachments/assets/bc57087e-e801-47ee-9f48-a6053d7288ca)
+
+파일을 업로드를 하면 피부타입(건성,민감성,지성,중성), 중점기능(미백,보습,트러블,보호,노화방지)에 맞는 
+제품을 추천해주고  상세긍부정 비율을 확인할 수 있음
+
