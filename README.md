@@ -97,6 +97,8 @@
 브랜드명/상품명/내용 크롤링 완료 
 --
 ## 라벨링 처리과정
+![캡처4444444444444444](https://github.com/user-attachments/assets/dbb79e10-56e6-4b1c-8ae2-5cc5dca9988c)
+![캡처22](https://github.com/user-attachments/assets/fad31fb7-05cf-44d5-8deb-ad938a1b8203)
 
 LSTM 감성분석을 하는데 label_studio로 200개 정도 수동으로 라벨작업을 하다가 
 이게 맞나라는 생각이 들었다. 교수님이 주신거는 돌아가지 않아서 어떤점이 문제인가 살펴보도록하였다.
@@ -152,7 +154,7 @@ LSTM 감성분석을 하는데 label_studio로 200개 정도 수동으로 라벨
 ```python
 positive_words = ['좋다', '좋아요', '촉촉하다', '만족', '개선', '진정됐다', '괜찮다', '흡수', '효과', '추천''👍','❤️','😁','강추','합격','맛집','재구매']
 negative_words = ['별로', '자극적', '트러블났다', '건조하다', '따갑다', '효과없다', '불편하다', '뒤집어짐', '실망', '아쉬워','피로감을 느끼다','과하다','여드름']
-
+```
 
 ### 임계치(Threshold)
 
@@ -182,11 +184,17 @@ def label_aspect(aspect, prob_pos, prob_neg):
         return f"{aspect} 부정"
     else:
         return f"{aspect} 중립"
-
+```
 
 1. 속성 언급 시 주변에 긍정 키워드→ 라벨 = `'긍정'`
 2. 부정 키워드 주변에 부정 키워드 → 라벨 = `'부정'`
 3. 기타 언급만 있을 경우→ 라벨 = `'중립'`
+
+
+# 4) 실제 변환해서 원본에 붙이기(백터화)
+vector_df = fast_convert_label_to_vector(df_all['라벨'])
+df_vectorized = pd.concat([df_all, vector_df], axis=1)
+5개 속성 × 3극성 → 15차원 이진 벡터
 
 ```python
 # 3) 벡터 변환 함수 정의
@@ -203,12 +211,9 @@ def fast_convert_label_to_vector(label_series):
                     vector[key] = 1
         result.append(vector)
     return pd.DataFrame(result)
-
-# 4) 실제 변환해서 원본에 붙이기
-vector_df = fast_convert_label_to_vector(df_all['라벨'])
-df_vectorized = pd.concat([df_all, vector_df], axis=1)
-5개 속성 × 3극성 → 15차원 이진 벡터
 ```
+
+
 
 # 모델 학습
 ## 모델 아키텍처
@@ -216,6 +221,7 @@ df_vectorized = pd.concat([df_all, vector_df], axis=1)
 ### 1) 기본 LSTM 모델
 #### 단방향 빠른 학습
 ####  단방향 RNN 구조로 이전 시점 정보만 활용. 학습 속도가 빠르지만 문장 뒷부분 맥락 반영에 한계가 있음.
+
 ```python
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Embedding, LSTM, Dropout, Dense
@@ -233,7 +239,6 @@ model.compile(
   loss='binary_crossentropy',
   metrics=['accuracy']
 )
-
 ```
 ###  2) Bi-LSTM+Attention
 ####  양방향 문맥과 핵심 토큰 강조
@@ -273,9 +278,9 @@ model.compile(
 
 ```
 ![image](https://github.com/user-attachments/assets/4566d14e-895b-462f-b2a6-80b4edf5650b)
-### 성능이 56%에 머무른다는 것은, 이제 데이터를 모델에 넣기까지의 과정, 즉 '전처리(Preprocessing)'나 학습 파라미터에 문제
-### 리뷰 텍스트(문장)를 숫자 시퀀스로 변환하고, 모든 시퀀스의 길이를 동일하게 맞춰주는 과정
-## 공개된 한국어 Word2Vec, FastText, 또는 KoBERT, KR-BERT 같은 모델의 임베딩을 가져와서, 모델의 첫 번째 Embedding 레이어에 적용
+#### 성능이 56%에 머무른다는 것은, 이제 데이터를 모델에 넣기까지의 과정, 즉 '전처리(Preprocessing)'나 학습 파라미터에 문제
+#### 리뷰 텍스트(문장)를 숫자 시퀀스로 변환하고, 모든 시퀀스의 길이를 동일하게 맞춰주는 과정
+#### 공개된 한국어 Word2Vec, FastText, 또는 KoBERT, KR-BERT 같은 모델의 임베딩을 가져와서, 모델의 첫 번째 Embedding 레이어에 적용이 필요하다는 것을 느낌
 
 ## 실시간 대시보드 
 ### 추천 로직
