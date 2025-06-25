@@ -122,7 +122,7 @@ LSTM 감성분석을 하는데 label_studio로 200개 정도 수동으로 라벨
 
 화장품 리뷰 데이터를 활용하여 **속성 기반 감성 분석(Aspect-Based Sentiment Analysis, ABSA)** 을 수행하고, LSTM 기반 다중 레이블 분류 모델로 **제품별 기능 감성**을 자동 예측하는 파이프라인을 제공
 
-[크롤링을 한거 가지고 학습모델 생성 및 감성분석 웹페이지 구경하기](https://github.com/tlgus0312/OlivFeeling)
+[크롤링을 한거 가지고 학습모델 생성 및 감성분석 웹페이지 구경하기](https://github.com/tlgus0312/OlivFeeling)  ☜클릭
 
 
 
